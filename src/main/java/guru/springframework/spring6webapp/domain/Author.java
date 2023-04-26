@@ -1,9 +1,11 @@
 package guru.springframework.spring6webapp.domain;
 
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -17,8 +19,8 @@ public class Author {
 	private String firstName;
 	private String lastName;
 
-	@ManyToMany(mappedBy = "authors")
-	private Set<Book> books;
+	@ManyToMany(mappedBy = "authors", fetch = FetchType.EAGER)
+	private Set<Book> books = new HashSet<>();
 
 	@Override
 	public int hashCode() {
@@ -39,7 +41,11 @@ public class Author {
 
 	@Override
 	public String toString() {
-		return "Author [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", books=" + books + "]";
+		/*
+		 * This is commented out to avoid circular reference
+		 * return "Author [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", books=" + books + "]";
+		 */
+		return "Author [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", books=" + books.size() + "]";
 	}
 
 	// Getters & Setters
