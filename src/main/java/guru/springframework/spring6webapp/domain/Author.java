@@ -1,5 +1,6 @@
 package guru.springframework.spring6webapp.domain;
 
+import java.util.Objects;
 import java.util.Set;
 
 import jakarta.persistence.Entity;
@@ -19,8 +20,30 @@ public class Author {
 	@ManyToMany(mappedBy = "authors")
 	private Set<Book> books;
 
+	@Override
+	public int hashCode() {
+		return Objects.hash(firstName);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Author other = (Author) obj;
+		return Objects.equals(firstName, other.firstName);
+	}
+
+	@Override
+	public String toString() {
+		return "Author [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", books=" + books + "]";
+	}
+
 	// Getters & Setters
-	
+
 	public Long getId() {
 		return id;
 	}
