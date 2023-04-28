@@ -13,6 +13,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 
 @Entity
 public class Book {
@@ -25,6 +26,9 @@ public class Book {
 	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
 	@JoinTable(name = "author_book", joinColumns = @JoinColumn(name = "book_id"), inverseJoinColumns = @JoinColumn(name = "author_id"))
 	private Set<Author> authors = new HashSet<>();
+
+	@ManyToOne
+	private Publisher publisher;
 
 	@Override
 	public int hashCode() {
@@ -49,7 +53,7 @@ public class Book {
 		 * This is commented out to avoid circular reference
 		 * return "Book [id=" + id + ", title=" + title + ", isbn=" + isbn + ", authors=" + authors + "]";
 		 */
-		return "Book [id=" + id + ", title=" + title + ", isbn=" + isbn + ", authors=" + authors.size() + "]";
+		return "Book [id=" + id + ", title=" + title + ", isbn=" + isbn + ", authors=" + authors.size() + ", publisher=" + publisher + "]";
 	}
 
 	// Getters & Setters
@@ -77,5 +81,11 @@ public class Book {
 	}
 	public void setAuthors(Set<Author> authors) {
 		this.authors = authors;
+	}
+	public Publisher getPublisher() {
+		return publisher;
+	}
+	public void setPublisher(Publisher publisher) {
+		this.publisher = publisher;
 	}
 }
